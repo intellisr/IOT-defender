@@ -1,0 +1,34 @@
+Timestamp,Source IP,Destination Port,Protocol,Bytes Transferred,IOT Devices,Response Time,Status
+1/4/2024 6:54,24.213.73.74,11061,TCP,7419116,smart bulb system,178,timeout
+1/4/2024 6:54,136.156.140.240,58599,TCP,1810856,smart bulb system,396,failure
+1/4/2024 6:54,224.109.38.209,30722,ICMP,1506353,smart camera system,31,failure
+1/4/2024 6:54,46.180.157.199,55054,UDP,5816389,smart vaccums,121,success
+1/4/2024 6:54,169.137.172.204,5498,ICMP,6939878,smart camera system,461,failure
+1/4/2024 6:54,7.119.3.60,38867,ICMP,539840,smart bulb system,284,success
+1/4/2024 6:54,84.85.48.189,61938,TCP,9975533,smart bulb system,77,timeout
+1/4/2024 6:54,46.203.63.187,52043,TCP,6302731,alexa,199,success
+1/4/2024 6:54,28.252.128.61,14236,ICMP,596564,alexa,272,success
+1/4/2024 6:54,227.212.239.118,19412,TCP,6273043,smart bulb system,255,success
+1/4/2024 6:54,217.13.234.243,52988,TCP,1118495,smart bulb system,386,success
+1/4/2024 6:54,193.87.218.54,44667,TCP,9146326,smart camera system,203,success
+1/4/2024 6:54,56.154.141.162,34457,ICMP,6005494,alexa,321,failure
+1/4/2024 6:54,76.209.35.224,58383,ICMP,1104159,smart vaccums,372,failure
+1/4/2024 6:54,81.123.244.13,31697,UDP,4905455,smart vaccums,316,timeout
+1/4/2024 6:54,206.186.29.251,16776,UDP,3218853,smart bulb system,104,failure
+1/4/2024 6:54,24.131.122.218,8635,TCP,4405358,smart bulb system,278,success
+5/14/2024 8:58,133.240.27.104,27853,ICMP,9720239,smart camera system,351,failure
+5/14/2024 8:58,185.74.55.208,34892,ICMP,5536794,smart bulb system,424,timeout
+5/14/2024 8:58,197.147.142.99,18038,ICMP,1776367,smart vaccums,130,timeout
+5/14/2024 8:58,99.131.175.201,25498,UDP,6408106,alexa,187,success
+5/14/2024 8:58,105.146.73.94,41982,ICMP,500278,smart bulb system,137,failure
+5/14/2024 8:58,97.211.244.95,44823,UDP,8735226,smart camera system,342,success
+5/14/2024 8:58,145.218.105.233,59723,UDP,6479635,smart bulb system,118,success
+5/14/2024 8:58,79.99.47.46,36970,UDP,9179185,smart bulb system,46,timeout
+5/14/2024 8:58,201.241.166.110,43254,TCP,5238216,alexa,498,failure
+5/14/2024 8:58,1.83.41.164,33757,TCP,4808394,smart bulb system,260,timeout
+5/14/2024 8:58,35.219.66.93,1087,TCP,4350586,smart bulb system,151,timeout
+5/14/2024 8:58,19.251.217.8,35496,TCP,2557510,smart vaccums,125,failure
+5/14/2024 8:58,13.57.85.195,37737,ICMP,5087178,smart camera system,388,failure
+5/14/2024 8:58,121.180.228.185,27710,UDP,1534247,smart camera system,258,timeout
+5/14/2024 8:58,47.80.96.254,47768,TCP,8031207,alexa,167,failure
+5/14/2024 8:58,34.113.100.224,42779,ICMP,5667326,alexa,356,success

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Submission & Anomaly Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 1200px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .form-container, .results-container {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group {
+            flex: 1 1 48%;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-self: center;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .anomalies {
+            padding-top: 10px;
+        }
+        .anomalies ul {
+            padding-left: 20px;
+        }
+        .loading {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: Arial, sans-serif;
+        }
+        
+        .loading .spinner {
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        .loading p {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        
+        /* Keyframes for the spinning animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>IOT Defender Hub</h1>
+    <div id="loading" class="loading" >
+        <div class="spinner"></div>
+        <p>Please wait | Loading...</p>
+    </div>
+
+    <div class="container">
+        <!-- Data Submission Form -->
+        <div class="form-container">
+            <h2>Submit IOT requests (simulation)</h2>
+            <form id="dataForm">
+                <div class="form-group">
+                    <label for="Timestamp">Timestamp:</label>
+                    <input type="datetime-local" id="Timestamp" name="Timestamp" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="SourceIP">Source IP:</label>
+                    <input type="text" id="SourceIP" name="SourceIP" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="DestinationPort">Destination Port:</label>
+                    <input type="number" id="DestinationPort" name="DestinationPort" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Protocol">Protocol:</label>
+                    <select id="Protocol" name="Protocol" required>
+                        <option value="TCP">TCP</option>
+                        <option value="UDP">UDP</option>
+                        <option value="ICMP">ICMP</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="BytesTransferred">Bytes Transferred:</label>
+                    <input type="number" id="BytesTransferred" name="BytesTransferred" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="EventType">IOT Device:</label>
+                    <select id="EventType" name="EventType" required>
+                        <option value="alexa">Alexa</option>
+                        <option value="smart bulb system">Smart Bulb System</option>
+                        <option value="smart camera system">Smart Camera System</option>
+                        <option value="smart vacuum">Smart Vacuum</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ResponseTime">Response Time (ms):</label>
+                    <input type="number" id="ResponseTime" name="ResponseTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Status">Status:</label>
+                    <select id="Status" name="Status" required>
+                        <option value="success">Success</option>
+                        <option value="timeout">Timeout</option>
+                        <option value="failure">Failure</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Anomaly Detection Results -->
+        <div class="results-container">
+            <h2>Anomaly Detection Graph</h2>
+            <div class="image-container">
+                <img id="anomalyImage" src="" alt="Anomaly Image">
+            </div>
+            <div class="anomalies">
+                <h3>Detected Anomalies by IOT systems:</h3>
+                <ul id="anomalyList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+            // Function to fetch and load sample data when the page loads
+        function loadSampleData() {         
+            // Update anomalies list
+            const anomalyList = document.getElementById('anomalyList');
+            anomalyList.innerHTML = 'Anomalies not Detected yet'; // Clear existing list
+
+            // Update image from static folder (e.g., IOT.png)
+            const anomalyImage = document.getElementById('anomalyImage');
+            anomalyImage.src = '/static/IOT.png'; // Path to your static image
+        }
+
+        // Trigger the function when the page loads
+        window.onload = loadSampleData;
+
+        document.getElementById('dataForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Show loading indicator
+            const loadingIndicator = document.getElementById('loading');
+            loadingIndicator.style.display = 'block';
+
+            const formData = {
+                Timestamp: document.getElementById('Timestamp').value,
+                SourceIP: document.getElementById('SourceIP').value,
+                DestinationPort: document.getElementById('DestinationPort').value,
+                Protocol: document.getElementById('Protocol').value,
+                BytesTransferred: document.getElementById('BytesTransferred').value,
+                EventType: document.getElementById('EventType').value,
+                ResponseTime: document.getElementById('ResponseTime').value,
+                Status: document.getElementById('Status').value
+            };
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    // Update anomalies list
+                    const anomalyList = document.getElementById('anomalyList');
+                    anomalyList.innerHTML = ''; // Clear existing list
+                    data.anomalies.forEach(anomaly => {
+                        const li = document.createElement('li');
+                        li.textContent = anomaly;
+                        anomalyList.appendChild(li);
+                    });
+
+                    // Update image
+                    //var im_cont = document.getElementById('image-container');
+                    //im_cont.style.width = "600px";
+
+                    const anomalyImage = document.getElementById('anomalyImage');
+                    anomalyImage.src = `data:image/png;base64,${data.img_data}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>
